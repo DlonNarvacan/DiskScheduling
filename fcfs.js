@@ -1,3 +1,8 @@
+// "use strict";
+
+import input from "prompt-sync";
+const prompt = input({ sigint: true });
+
 let reqs,
   head,
   st = 0;
@@ -9,15 +14,11 @@ const chart = [];
 console.log("===== FCFS Disk Scheduling Algorithm =====");
 
 reqs = prompt("Number of Requests: ");
-console.log(`Number of Request: ${reqs}`);
-
 head = prompt("Headstart: ");
-console.log(`Headstart: ${head}`);
 stchart.push(head);
 
 for (let i = 0; i < reqs; i++) {
-  request.push(`${prompt(`Queue ${i + 1} :`)}`);
-  console.log(`Queue ${i + 1}: ${request[i]}`);
+  request.push(`${prompt(`Queue ${i + 1} : `)}`);
 }
 
 for (let i = 0; i < reqs; i++) {
@@ -31,7 +32,7 @@ console.log("============= FCFS Seek Time Movement Chart =============");
 for (let i = 0; i < stchart.length; i++) new_stchart.push(stchart[i]);
 
 stchart.sort((a, b) => a - b);
-console.log(`=  ${stchart.join(" | ")} |`);
+console.log(`| ${stchart.join(" | ")} |`);
 
 let temp;
 for (let i = 0; i < new_stchart.length; i++) {
@@ -45,7 +46,7 @@ for (let i = 0; i < new_stchart.length; i++) {
       else chart.push("    |");
     }
   }
-  console.log(`=  ${chart.join(" ")}`);
+  console.log(`| ${chart.join(" ")}`);
   chart.splice(0, chart.length);
 }
 
