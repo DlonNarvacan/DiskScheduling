@@ -1,26 +1,23 @@
+import input from "prompt-sync";
+const prompt = input({ sigint: true });
+
 let reqs,
   head,
   st = 0,
   right;
 const request = [];
-const sort = [];
 const stchart = [];
-const visited = [];
 const new_stchart = [];
 const chart = [];
 
 console.log("===== C-SCAN(Descending) Disk Scheduling Algorithm =====");
 
 reqs = prompt("Number of Requests: ");
-console.log(`Number of Request: ${reqs}`);
-
 head = prompt("Headstart: ");
-console.log(`Headstart: ${head}`);
 stchart.push(head);
 
 for (let i = 0; i < reqs; i++) {
-  request.push(`${prompt(`Queue ${i + 1} :`)}`);
-  console.log(`Queue ${i + 1}: ${request[i]}`);
+  request.push(`${prompt(`Queue ${i + 1} : `)}`);
 }
 
 request.sort((a, b) => a - b);
