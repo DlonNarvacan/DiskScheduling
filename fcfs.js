@@ -1,5 +1,3 @@
-// "use strict";
-
 import input from "prompt-sync";
 const prompt = input({ sigint: true });
 
