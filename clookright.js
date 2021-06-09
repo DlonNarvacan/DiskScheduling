@@ -4,20 +4,35 @@ const prompt = input({ sigint: true });
 let reqs,
   head,
   st = 0,
-  right;
+  right,
+  arl,
+  tl,
+  seektime,
+  access;
+
 const request = [];
 const stchart = [];
 const new_stchart = [];
 const chart = [];
+const data = [];
+let cont = [];
+let summary = [];
+let temp_cont = [];
+const new_request = [];
 
-console.log("===== C-LOOK(Ascending) Disk Scheduling Algorithm =====");
+console.log("===== SCAN(Ascending) Disk Scheduling Algorithm =====");
 
 reqs = prompt("Number of Requests: ");
 head = prompt("Headstart: ");
+arl = prompt("Average Rotational Latency: ");
+tl = prompt("Transfer Latency: ");
+seektime = prompt("Seek Time: ");
+access = parseInt(arl) + parseInt(tl) + parseInt(seektime);
 stchart.push(head);
 
 for (let i = 0; i < reqs; i++) {
   request.push(`${prompt(`Queue ${i + 1} : `)}`);
+  new_request.push(request[i]);
 }
 
 request.sort((a, b) => a - b);
@@ -32,8 +47,68 @@ for (let i = right; i < reqs; i++) stchart.push(request[i]);
 
 for (let i = 0; i <= right - 1; i++) stchart.push(request[i]);
 
+for (let i = 0; i < stchart.length; i++) temp_cont.push(stchart[i]);
+
+temp_cont = temp_cont.filter((item) => item !== head);
+
+for (let i = 0; i < request.length; i++) cont.push(temp_cont[i]);
+cont = cont.filter((item) => item !== head); // remove head
+
+let prev_head = head,
+  start = 0,
+  service,
+  seek,
+  comp,
+  track,
+  diff;
+
+for (let i = 0; i < cont.length; i++) {
+  service =
+    parseInt(arl) +
+    parseInt(tl) +
+    (parseFloat(seektime) + 0.1 * Math.abs(parseInt(cont[i]) - prev_head));
+  seek = parseFloat(seektime) + 0.1 * Math.abs(parseInt(cont[i]) - prev_head);
+  comp =
+    parseFloat(start) +
+    parseInt(access) +
+    0.1 * Math.abs(parseInt(cont[i]) - prev_head);
+  comp = comp.toFixed(1);
+  seek = seek.toFixed(1);
+  service = service.toFixed(1);
+  diff = Math.abs(parseInt(cont[i]) - prev_head);
+  st += diff;
+
+  for (let j = 0; j < cont.length; j++)
+    if (cont[i] == new_request[j]) track = j + 1;
+
+  data.push({
+    ID: `Track ${track}`,
+    Queue: parseInt(cont[i]),
+    Prev: parseInt(prev_head),
+    Post: parseInt(cont[i]),
+    Diff: diff,
+    "ARL+TL": parseInt(arl) + parseInt(tl),
+    Seek: parseFloat(seek),
+    Service: parseFloat(service),
+    Start: parseFloat(start),
+    Complete: parseFloat(comp),
+  });
+  start = comp;
+  prev_head = cont[i];
+}
+
+summary = data.reduce((pull, { ID, ...x }) => {
+  pull[ID] = x;
+  return pull;
+}, {}); // used to pull the value of data.ID to the first column.
+
 console.log(
-  "============= C-LOOK(Ascending) Seek Time Movement Chart ============="
+  "\n======================        FCFS Disk Request Summary       ======================="
+);
+console.table(summary);
+
+console.log(
+  "============= SCAN(Ascending) Seek Time Movement Chart ============="
 );
 
 for (let i = 0; i < stchart.length; i++) new_stchart.push(stchart[i]);
@@ -46,8 +121,8 @@ for (let i = 0; i < new_stchart.length; i++) {
   temp = new_stchart[i];
   for (let j = 0; j < new_stchart.length; j++) {
     if (temp == stchart[j]) {
-      if (stchart[j] <= 99) chart.push(" ■ |");
-      else chart.push(" ■  |");
+      if (stchart[j] <= 99) chart.push(" ○ |");
+      else chart.push(" ○  |");
     } else {
       if (stchart[j] <= 99) chart.push("   |");
       else chart.push("    |");
@@ -58,20 +133,4 @@ for (let i = 0; i < new_stchart.length; i++) {
 }
 
 console.log(`Seek Movement: ${new_stchart.join(" - ")}`);
-
-let tempcon = 0,
-  container,
-  cnt = 0;
-for (let i = 0; i < new_stchart.length; i++) {
-  if (cnt == 0) {
-    container = Math.abs(parseInt(new_stchart[i]) - tempcon);
-    tempcon = new_stchart[i];
-  } else {
-    container = Math.abs(parseInt(new_stchart[i]) - tempcon);
-    tempcon = new_stchart[i];
-    st += container;
-  }
-  cnt++;
-}
-
 console.log(`Total Seek Time: ${st}`);
