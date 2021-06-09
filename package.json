@@ -1,0 +1,17 @@
+{
+  "name": "diskscheduling",
+  "description": "DiskScheduling Algorithm JS Implementation",
+  "author": "Arnold Narvacan <bignetnarvacan@yahoo.com>",
+  "homepage": "https://github.com/DlonNarvacan/DiskScheduling",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DlonNarvacan/DiskScheduling.git"
+  },
+  "type": "module",
+  "main": "./index.cjs",
+  "exports": {
+    ".": "./index.cjs",
+    "./module": "./index.mjs"
+  },
+  "version": "0.0.1"
+}
