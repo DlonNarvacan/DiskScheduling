@@ -21,7 +21,7 @@ let summary = [];
 let temp_cont = [];
 const new_request = [];
 
-console.log("===== SCAN(Ascending) Disk Scheduling Algorithm =====");
+console.log("===== LOOK(Descending) Disk Scheduling Algorithm =====");
 
 reqs = prompt("Number of Requests: ");
 head = prompt("Headstart: ");
@@ -102,12 +102,12 @@ summary = data.reduce((pull, { ID, ...x }) => {
 }, {}); // used to pull the value of data.ID to the first column.
 
 console.log(
-  "\n======================        FCFS Disk Request Summary       ======================="
+  "\n======================        LOOK(Descending) Disk Request Summary       ======================="
 );
 console.table(summary);
 
 console.log(
-  "============= SCAN(Ascending) Seek Time Movement Chart ============="
+  "============= LOOK(Descending) Seek Time Movement Chart ============="
 );
 
 for (let i = 0; i < stchart.length; i++) new_stchart.push(stchart[i]);
