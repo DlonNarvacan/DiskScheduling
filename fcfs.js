@@ -51,20 +51,15 @@ let prev_head = head,
   start = 0,
   service,
   seek,
-  comp;
+  comp,
+  diff;
 
 for (let i = 0; i < container.length; i++) {
+  diff = Math.abs(parseInt(container[i]) - prev_head);
   service =
-    parseInt(arl) +
-    parseInt(tl) +
-    (parseFloat(seektime) +
-      delay * Math.abs(parseInt(container[i]) - prev_head));
-  seek =
-    parseFloat(seektime) + delay * Math.abs(parseInt(container[i]) - prev_head);
-  comp =
-    parseFloat(start) +
-    parseInt(access) +
-    delay * Math.abs(parseInt(container[i]) - prev_head);
+    parseInt(arl) + parseInt(tl) + (parseFloat(seektime) + delay * diff);
+  seek = parseFloat(seektime) + delay * diff;
+  comp = parseFloat(start) + parseInt(access) + delay * diff;
   comp = comp.toFixed(1);
   seek = seek.toFixed(1);
   service = service.toFixed(1);
