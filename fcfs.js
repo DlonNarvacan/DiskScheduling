@@ -8,7 +8,8 @@ let reqs,
   arl,
   tl,
   seektime,
-  access;
+  access,
+  delay;
 
 const request = [];
 let stchart = [];
@@ -27,20 +28,23 @@ arl = prompt("Average Rotational Latency: ");
 tl = prompt("Transfer Latency: ");
 seektime = prompt("Seek Time: ");
 access = parseInt(arl) + parseInt(tl) + parseInt(seektime);
+delay = prompt("Delay: ");
 stchart.push(head);
 
 for (let i = 0; i < reqs; i++) {
   request.push(`${prompt(`Queue ${i + 1} : `)}`);
 }
+
 let temp_head = head;
 for (let i = 0; i < reqs; i++) {
   stchart.push(request[i]);
   container.push(request[i]); // to be used for displaying the summary of the program
-  st += Math.abs(request[i] - temp_head);
+  st += Math.abs(request[i] - temp_head); //
   stprev = Math.abs(request[i] - temp_head);
   prev.push(stprev);
   temp_head = request[i];
 }
+
 container = container.filter((item) => item !== head); // remove head
 
 let prev_head = head,
@@ -53,13 +57,14 @@ for (let i = 0; i < container.length; i++) {
   service =
     parseInt(arl) +
     parseInt(tl) +
-    (parseFloat(seektime) + 0.1 * Math.abs(parseInt(container[i]) - prev_head));
+    (parseFloat(seektime) +
+      delay * Math.abs(parseInt(container[i]) - prev_head));
   seek =
-    parseFloat(seektime) + 0.1 * Math.abs(parseInt(container[i]) - prev_head);
+    parseFloat(seektime) + delay * Math.abs(parseInt(container[i]) - prev_head);
   comp =
     parseFloat(start) +
     parseInt(access) +
-    0.1 * Math.abs(parseInt(container[i]) - prev_head);
+    delay * Math.abs(parseInt(container[i]) - prev_head);
   comp = comp.toFixed(1);
   seek = seek.toFixed(1);
   service = service.toFixed(1);
