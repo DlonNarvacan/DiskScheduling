@@ -8,7 +8,8 @@ let reqs,
   arl,
   tl,
   seektime,
-  access;
+  access,
+  delay;
 
 const request = [];
 const stchart = [];
@@ -28,6 +29,7 @@ arl = prompt("Average Rotational Latency: ");
 tl = prompt("Transfer Latency: ");
 seektime = prompt("Seek Time: ");
 access = parseInt(arl) + parseInt(tl) + parseInt(seektime);
+delay = prompt("Delay: ");
 stchart.push(head);
 
 for (let i = 0; i < reqs; i++) {
@@ -66,12 +68,12 @@ for (let i = 0; i < cont.length; i++) {
   service =
     parseInt(arl) +
     parseInt(tl) +
-    (parseFloat(seektime) + 0.1 * Math.abs(parseInt(cont[i]) - prev_head));
-  seek = parseFloat(seektime) + 0.1 * Math.abs(parseInt(cont[i]) - prev_head);
+    (parseFloat(seektime) + delay * Math.abs(parseInt(cont[i]) - prev_head));
+  seek = parseFloat(seektime) + delay * Math.abs(parseInt(cont[i]) - prev_head);
   comp =
     parseFloat(start) +
     parseInt(access) +
-    0.1 * Math.abs(parseInt(cont[i]) - prev_head);
+    delay * Math.abs(parseInt(cont[i]) - prev_head);
   comp = comp.toFixed(1);
   seek = seek.toFixed(1);
   service = service.toFixed(1);
@@ -103,7 +105,7 @@ summary = data.reduce((pull, { ID, ...x }) => {
 }, {}); // used to pull the value of data.ID to the first column.
 
 console.log(
-  "\n======================        FCFS Disk Request Summary       ======================="
+  "\n======================        SCAN(Ascending) Disk Request Summary       ======================="
 );
 console.table(summary);
 
