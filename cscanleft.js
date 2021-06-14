@@ -117,8 +117,7 @@ console.log(
 for (let i = 0; i < stchart.length; i++) new_stchart.push(stchart[i]);
 
 stchart.sort((a, b) => a - b);
-if (stchart.includes("0") == true) console.log(`|  ${stchart.join(" | ")} |`);
-else console.log(`| ${stchart.join(" | ")} |`);
+console.log(`|  ${stchart.join(" | ")} |`);
 
 let temp;
 for (let i = 0; i < new_stchart.length; i++) {
