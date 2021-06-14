@@ -47,11 +47,13 @@ for (let i = 0; i < reqs - 1; i++)
   }
 
 for (let i = right; i < reqs; i++) stchart.push(request[i]);
+stchart.push(200);
 stchart.push(0);
 for (let i = 0; i <= right - 1; i++) stchart.push(request[i]);
 
 for (let i = 0; i < stchart.length; i++) temp_stchart.push(stchart[i]);
 temp_stchart = temp_stchart.filter((item) => item != 0);
+temp_stchart = temp_stchart.filter((item) => item != 200);
 
 for (let i = 0; i < stchart.length; i++) temp_cont.push(temp_stchart[i]);
 temp_cont = temp_cont.filter((item) => item !== head);
@@ -113,7 +115,8 @@ console.log(
 for (let i = 0; i < stchart.length; i++) new_stchart.push(stchart[i]);
 
 stchart.sort((a, b) => a - b);
-console.log(`|  ${stchart.join(" | ")} |`);
+if (stchart.includes("0") == true) console.log(`|  ${stchart.join(" | ")} |`);
+else console.log(`| ${stchart.join(" | ")} |`);
 
 let temp;
 for (let i = 0; i < new_stchart.length; i++) {
