@@ -23,6 +23,12 @@ console.log("===== SSTF Disk Scheduling Algorithm =====");
 
 reqs = prompt("Number of Requests: ");
 head = prompt("Headstart: ");
+while (head > 200 || head < 0) {
+  console.log(
+    "ERROR: Input should be greater than or equal to 0 or less than or equal to 200!"
+  );
+  head = prompt("Headstart Movement: ");
+}
 arl = prompt("Average Rotational Latency: ");
 tl = prompt("Transfer Latency: ");
 seektime = prompt("Seek Time: ");
@@ -32,6 +38,12 @@ stchart.push(head);
 
 for (let i = 0; i < reqs; i++) {
   request.push(`${prompt(`Queue ${i + 1} : `)}`);
+  while (request[i] > 200 || request[i] < 0) {
+    console.log(
+      "ERROR: Input should be greater than or equal to 0 or less than or equal to 200!"
+    );
+    request[i] = prompt(`Queue ${i + 1} : `);
+  }
   visited.push(0);
 }
 
@@ -107,7 +119,8 @@ console.log("============= SSTF Seek Time Movement Chart =============");
 for (let i = 0; i < stchart.length; i++) new_stchart.push(stchart[i]);
 
 stchart.sort((a, b) => a - b);
-console.log(`| ${stchart.join(" | ")} |`);
+if (stchart.includes("0") == true) console.log(`|  ${stchart.join(" | ")} |`);
+else console.log(`| ${stchart.join(" | ")} |`);
 
 let temp;
 for (let i = 0; i < new_stchart.length; i++) {

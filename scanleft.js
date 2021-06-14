@@ -26,6 +26,12 @@ console.log("===== SCAN(Descending) Disk Scheduling Algorithm =====");
 
 reqs = prompt("Number of Requests: ");
 head = prompt("Headstart: ");
+while (head > 200 || head < 0) {
+  console.log(
+    "ERROR: Input should be greater than or equal to 0 or less than or equal to 200!"
+  );
+  head = prompt("Headstart Movement: ");
+}
 arl = prompt("Average Rotational Latency: ");
 tl = prompt("Transfer Latency: ");
 seektime = prompt("Seek Time: ");
@@ -36,9 +42,19 @@ stchart.push(head);
 for (let i = 0; i < reqs; i++) {
   request.push(`${prompt(`Queue ${i + 1} : `)}`);
   new_request.push(request[i]);
+  while (request[i] > 200 || request[i] < 0) {
+    console.log(
+      "ERROR: Input should be greater than or equal to 0 or less than or equal to 200!"
+    );
+    request[i] = prompt(`Queue ${i + 1} : `);
+    new_request[i] = request[i];
+  }
 }
 
-request.sort((a, b) => a - b);
+let check1;
+check1 = request.includes("0");
+
+request.sort((a, b) => (b || Number.MAX_VALUE) - (a || Number.MAX_VALUE));
 
 for (let i = 0; i < reqs - 1; i++)
   if (request[i] > head) {
@@ -49,11 +65,11 @@ for (let i = 0; i < reqs - 1; i++)
 right = right - 1;
 
 for (let i = right; i >= 0; i--) stchart.push(request[i]);
-stchart.push(0);
+if (check1 != true) stchart.push(0);
 for (let i = right + 1; i < reqs; i++) stchart.push(request[i]);
 
 for (let i = 0; i < stchart.length; i++) temp_stchart.push(stchart[i]);
-temp_stchart = temp_stchart.filter((item) => item != 0);
+if (check1 != true) temp_stchart = temp_stchart.filter((item) => item != 0);
 
 for (let i = 0; i < stchart.length; i++) temp_cont.push(temp_stchart[i]);
 temp_cont = temp_cont.filter((item) => item !== head);
@@ -115,7 +131,8 @@ console.log(
 for (let i = 0; i < stchart.length; i++) new_stchart.push(stchart[i]);
 
 stchart.sort((a, b) => a - b);
-console.log(`|  ${stchart.join(" | ")} |`);
+if (stchart.includes("0") == true) console.log(`|  ${stchart.join(" | ")} |`);
+else console.log(`| ${stchart.join(" | ")} |`);
 
 let temp;
 for (let i = 0; i < new_stchart.length; i++) {
