@@ -25,6 +25,12 @@ console.log("===== LOOK(Descending) Disk Scheduling Algorithm =====");
 
 reqs = prompt("Number of Requests: ");
 head = prompt("Headstart: ");
+while (head > 200 || head < 0) {
+  console.log(
+    "ERROR: Input should be greater than or equal to 0 or less than or equal to 200!"
+  );
+  head = prompt("Headstart Movement: ");
+}
 arl = prompt("Average Rotational Latency: ");
 tl = prompt("Transfer Latency: ");
 seektime = prompt("Seek Time: ");
@@ -35,6 +41,13 @@ stchart.push(head);
 for (let i = 0; i < reqs; i++) {
   request.push(`${prompt(`Queue ${i + 1} : `)}`);
   new_request.push(request[i]);
+  while (request[i] > 200 || request[i] < 0) {
+    console.log(
+      "ERROR: Input should be greater than or equal to 0 or less than or equal to 200!"
+    );
+    request[i] = prompt(`Queue ${i + 1} : `);
+    new_request[i] = request[i];
+  }
 }
 
 request.sort((a, b) => a - b);
