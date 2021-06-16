@@ -92,7 +92,6 @@ for (let i = 0; i < cont.length; i++) {
   comp = comp.toFixed(1);
   seek = seek.toFixed(1);
   service = service.toFixed(1);
-  st += diff;
 
   for (let j = 0; j < cont.length; j++)
     if (cont[i] == new_request[j]) track = j + 1;
@@ -149,4 +148,20 @@ for (let i = 0; i < new_stchart.length; i++) {
 }
 
 console.log(`Seek Movement: ${new_stchart.join(" - ")}`);
+
+let tempcon = 0,
+  container,
+  cnt = 0;
+for (let i = 0; i < new_stchart.length; i++) {
+  if (cnt == 0) {
+    container = Math.abs(parseInt(new_stchart[i]) - tempcon);
+    tempcon = new_stchart[i];
+  } else {
+    container = Math.abs(parseInt(new_stchart[i]) - tempcon);
+    tempcon = new_stchart[i];
+    st += container;
+  }
+  cnt++;
+}
+
 console.log(`Total Seek Time: ${st}`);
